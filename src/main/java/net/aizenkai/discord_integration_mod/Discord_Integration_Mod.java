@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.command.CommandSource;
 import net.minecraft.network.chat.Component;
 import net.minecraft.network.chat.MutableComponent;
-import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.world.entity.player.Player;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.client.event.ClientChatReceivedEvent;
 import net.minecraftforge.common.ForgeConfigSpec;
@@ -75,7 +75,7 @@ public class Discord_Integration_Mod {
         CommandDispatcher<CommandSource> dispatcher = event.getDispatcher();
         dispatcher.register(literal("testcommand")
                 .executes(context -> {
-                    context.getSource().sendFeedback(Component.literal("This is a test command!"), false);
+                    context.getSource().sendSuccess(Component.literal("This is a test command!"), false);
                     return 1;
                 }));
     }
@@ -142,7 +142,7 @@ public class Discord_Integration_Mod {
                 while ((message = in.readLine()) != null) {
                     // Handle message received from the bot.  Make sure it's on the main thread.
                     String finalMessage = message;
-                    Minecraft.getInstance().ingameGUI.getChatGUI().addChatMessage(Component.literal("[Discord] " + finalMessage));
+                    Minecraft.getInstance().gui.getChat().addChat(Component.literal("[Discord] " + finalMessage));
                 }
             } catch (IOException e) {
                 LOGGER.error("[DiscordChatMod] Error receiving message from bot: " + e.getMessage());
@@ -164,6 +164,7 @@ public class Discord_Integration_Mod {
                 if (socket != null && !socket.isClosed()) socket.close();
             } catch (IOException e) {
                 LOGGER.error("[DiscordChatMod] Error closing socket: " + e.getMessage());
+                disconnect();
             } finally {
                 out = null;
                 in = null;

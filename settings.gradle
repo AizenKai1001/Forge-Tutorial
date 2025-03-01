@@ -1,14 +1,18 @@
 pluginManagement {
     repositories {
         gradlePluginPortal()
+        mavenCentral()
+        maven { url "https://plugins.gradle.org/m2/" } // Explicit Plugin Portal (redundant but for clarity)
         maven {
-            name = 'MinecraftForge'
-            url = 'https://maven.minecraftforge.net/'
+            url = "https://repo.maven.apache.org/maven2/" // Explicit Maven Central (redundant but for clarity)
         }
-        maven { url = 'https://maven.parchmentmc.org' }
+        maven {
+            url = "https://maven.minecraftforge.net/" // Explicit ForgeGradle Repo
+        }
+        maven {
+            url = "https://maven.parchmentmc.org"   // Parchment Repo
+        }
     }
 }
 
-plugins {
-    id 'org.gradle.toolchains.foojay-resolver-convention' version '0.7.0'
-}
+rootProject.name = 'Forge-Tutorial'
